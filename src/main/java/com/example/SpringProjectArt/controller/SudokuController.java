@@ -25,8 +25,8 @@ public class SudokuController {
     }
 
     @GetMapping("/sudoku")
-    public SudokuDto Sudoku()
+    public int[][] Sudoku()
     {
-        return new SudokuDto();
+        return new SudokuDto().array;
     }
 }
