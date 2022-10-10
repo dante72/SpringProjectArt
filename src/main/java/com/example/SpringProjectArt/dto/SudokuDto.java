@@ -7,6 +7,6 @@ public class SudokuDto {
     {
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
-                array[i][j] = 0;
+                array[i][j] = 2;
     }
 }

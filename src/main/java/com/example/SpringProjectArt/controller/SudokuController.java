@@ -1,7 +1,6 @@
 package com.example.SpringProjectArt.controller;
 
 import com.example.SpringProjectArt.dto.SudokuDto;
-import com.example.SpringProjectArt.model.User;
 import com.example.SpringProjectArt.service.SudokuService;
 import com.example.SpringProjectArt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

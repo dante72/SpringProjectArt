@@ -1,0 +1,10 @@
+.cell {
+    padding: 1em;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+}
+
+.cell:hover{
+    background-color: cornflowerblue;
+}
