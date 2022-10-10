@@ -1,8 +1,16 @@
 table {
     border-collapse: collapse;
+    border: 3px solid black;
 }
 
-td,
-th {
+td {
     border: 1px solid black;
+}
+
+.hor {
+    border-top: 3px solid black;
+}
+
+.ver {
+    border-left: 3px solid black;
 }
