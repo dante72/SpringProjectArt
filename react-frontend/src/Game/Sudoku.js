@@ -67,7 +67,7 @@ function Sudoku() {
                                     row.map((column, j) => {
                                         return (
                                             <td key={i * 9 + j} className={(i % 3 === 0 ? "hor" : "") + (j % 3 === 0 ? " ver" : "")}>
-                                                <Cell row={i} column={j} matrix={matrix} update={update}/>
+                                                <Cell row={i} column={j} matrix={matrix} isInitial={column == 0}/>
                                             </td>
                                         );
                                     })

@@ -4,7 +4,6 @@ import './Cell.css';
 function Cell(props) {
 
     const [state, setState] = useState({value: ''});
-
     useEffect(() => {
         setState({
             value: props.matrix[props.row][props.column]
@@ -20,9 +19,21 @@ function Cell(props) {
         props.matrix[props.row][props.row] = state.value;
     }
 
-    return (
-        <div className="cell" onClick={handleCellClick}>{state.value}</div>
-    );
+    if (props.isInitial) {
+        return (
+            <div className="cell" onClick={handleCellClick}>
+                <text className="text">{state.value}</text>
+            </div>
+        );
+    }
+    else
+    {
+        return (
+            <div className="cell initial">
+                <text className="text">{state.value}</text>
+            </div>
+        );
+    }
 }
 
 export default Cell
