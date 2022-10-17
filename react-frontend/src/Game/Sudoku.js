@@ -3,29 +3,24 @@ import './Sudoku.css';
 import React, { useEffect, useState } from "react";
 import Cell from "./Cell";
 
-const field =
-    [
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-    ];
-
 function update_field(data)
 {
+    const field = new Array(9);
+
+    for (let i = 0; i < field.length; i++) {
+        field[i] = new Array(9);
+    }
+
     for (let i = 0;  i < data.length; i++)
         for (let j = 0; j < data[i].length; j++)
         {
             if (data[i][j] === 0)
-                field[i][j] = '';
+                field[i][j] = {value: ''};
             else
-                field[i][j] = data[i][j];
+                field[i][j] = {value: data[i][j]};
         }
+
+    return field;
 }
 
 function Sudoku() {
@@ -38,21 +33,14 @@ function Sudoku() {
             .then(resp => resp.json())
             .then(data =>
             {
-                update_field(data);
                 setState({
-                    sudoku: field
+                    sudoku: update_field(data)
                 });
             })
             .catch(error => {
                 console.log(error);
             });
     }, []);
-
-    let update = (row, column, value) => {
-
-        console.log(field);
-        console.log(state.sudoku);
-    }
 
     let print = (matrix) =>
     {
@@ -67,7 +55,7 @@ function Sudoku() {
                                     row.map((column, j) => {
                                         return (
                                             <td key={i * 9 + j} className={(i % 3 === 0 ? "hor" : "") + (j % 3 === 0 ? " ver" : "")}>
-                                                <Cell row={i} column={j} matrix={matrix} isInitial={column == 0}/>
+                                                <Cell row={i} column={j} matrix={matrix} isInitial={column.value == 0} />
                                             </td>
                                         );
                                     })

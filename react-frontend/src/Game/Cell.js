@@ -6,7 +6,7 @@ function Cell(props) {
     const [state, setState] = useState({value: ''});
     useEffect(() => {
         setState({
-            value: props.matrix[props.row][props.column]
+            value: props.matrix[props.row][props.column].value
         })
     },[]);
 
@@ -16,7 +16,7 @@ function Cell(props) {
            value: state.value === 9 ? '' : ++state.value
         });
 
-        props.matrix[props.row][props.row] = state.value;
+        props.matrix[props.row][props.row].value = state.value;
     }
 
     if (props.isInitial) {
