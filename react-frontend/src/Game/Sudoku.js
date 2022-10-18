@@ -1,7 +1,23 @@
 import './Sudoku.css';
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import Cell from "./Cell";
+
+function getFieldDto(sudoku)
+{
+    let field = new Array(9);
+
+    for (let i = 0; i < field.length; i++) {
+        field[i] = new Array(9);
+    }
+
+    for (let i = 0;  i < sudoku.length; i++)
+        for (let j = 0; j < sudoku[i].length; j++)
+            field[i][j] = sudoku[i][j].value == 0 ? 0 : sudoku[i][j].value;
+
+    return field;
+}
+
 
 function update_field(data)
 {
@@ -41,6 +57,15 @@ function Sudoku() {
             });
     }, []);
 
+    function checkError(matrix, row)
+    {
+        for (let i = 0; i < matrix[row].length; i++)
+            if (matrix[row][i] != 0)
+                return true;
+
+        return false;
+    }
+
     let print = (matrix) =>
     {
         return (
@@ -68,8 +93,35 @@ function Sudoku() {
         )
     }
 
+    const url = 'http://localhost:8077/check';
+    const data = { username: 'example' };
+    let sendSudoku = () => {
+        try {
+            const response = fetch(url, {
+                method: 'POST', // или 'PUT'
+                body: JSON.stringify([[4, 1], [2, 1]]), // данные могут быть 'строкой' или {объектом}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .then(data => console.log(data));
+            //const json = await response.json();
+            //alert(response);
+            //console.log('Success:', JSON.stringify(json));
+        }
+
+        catch (error) {
+            alert("Error: " + error)
+            console.error('Error:', error);
+        }
+    }
+
     return (
-        print(state.sudoku)
+        <>
+            {print(state.sudoku)}
+            <button onClick={sendSudoku}> Value</button>>
+        </>
     );
 }
 export default Sudoku
