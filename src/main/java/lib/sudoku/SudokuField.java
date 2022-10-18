@@ -13,7 +13,7 @@ public class SudokuField {
         fillField();
     }
 
-    private boolean setField(int[][] field)
+    public boolean setField(int[][] field)
     {
         if (checkField(field))
         {
@@ -27,9 +27,14 @@ public class SudokuField {
     public boolean checkField()
     {
         for (int i = 0; i < field.length; i++)
-            for (int j = 0; j < field[j].length; j++)
+            for (int j = 0; j < field[i].length; j++)
+            {
+                if (field[i][j] == 0)
+                    continue;
+
                 if (!check(field[i][j], i, j))
                     return false;
+            }
 
         return true;
     }
@@ -57,9 +62,6 @@ public class SudokuField {
     {
         for (int i = 0; i < field[row].length; i++)
         {
-            if (field[row][i] == 0)
-                continue;
-
             for (int j = i + 1; j < field[row].length; j++)
                 if (field[row][i] == field[row][j])
                     return false;
@@ -72,9 +74,6 @@ public class SudokuField {
     {
         for (int i = 0; i < field.length; i++)
         {
-            if (field[i][column] == 0)
-                continue;
-
             for (int j = i + 1; j < field.length; j++)
                 if (field[i][column] == field[j][column])
                     return false;
@@ -83,27 +82,37 @@ public class SudokuField {
         return true;
     }
 
-    private boolean checkHorizontal(int value, int row)
+    private boolean checkHorizontal(int value, int row, int column)
     {
         for (int i = 0; i < field[row].length; i++)
+        {
+            if (column == i)
+                continue;
+
             if (field[row][i] == value)
                 return false;
+        }
 
         return true;
     }
 
-    private boolean checkVertical(int value, int column)
+    private boolean checkVertical(int value, int row, int column)
     {
         for (int i = 0; i < field.length; i++)
+        {
+            if (row == i)
+                continue;
+
             if (field[i][column] == value)
                 return false;
+        }
 
         return true;
     }
 
     private boolean checkSquare(int value, int row, int column)
     {
-        int iSquare = row % 3, jSquare = column % 3;
+        int iSquare = row / 3, jSquare = column / 3;
 
         for (int i = iSquare * 3; i < iSquare * 3 + 3; i++)
             for (int j = jSquare * 3; j < jSquare * 3 + 3; j++)
@@ -120,7 +129,7 @@ public class SudokuField {
 
     private boolean check(int value, int row, int column)
     {
-        return checkHorizontal(value, row) && checkVertical(value, column) && checkSquare(value, row, column);
+        return checkHorizontal(value, row, column) && checkVertical(value, row, column) && checkSquare(value, row, column);
     }
 
 }

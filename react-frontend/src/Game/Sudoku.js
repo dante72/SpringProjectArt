@@ -13,7 +13,7 @@ function getFieldDto(sudoku)
 
     for (let i = 0;  i < sudoku.length; i++)
         for (let j = 0; j < sudoku[i].length; j++)
-            field[i][j] = sudoku[i][j].value == 0 ? 0 : sudoku[i][j].value;
+            field[i][j] = sudoku[i][j].value === '' ? 0 : sudoku[i][j].value;
 
     return field;
 }
@@ -99,13 +99,13 @@ function Sudoku() {
         try {
             const response = fetch(url, {
                 method: 'POST', // или 'PUT'
-                body: JSON.stringify([[4, 1], [2, 1]]), // данные могут быть 'строкой' или {объектом}!
+                body: JSON.stringify(getFieldDto(state.sudoku)), // данные могут быть 'строкой' или {объектом}!
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
                 .then(resp => resp.json())
-                .then(data => console.log(data));
+                .then(data => {console.log(getFieldDto(state.sudoku)); alert(data.isCorrect);});
             //const json = await response.json();
             //alert(response);
             //console.log('Success:', JSON.stringify(json));

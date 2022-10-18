@@ -4,6 +4,7 @@ import com.example.SpringProjectArt.dto.ResponseDto;
 import com.example.SpringProjectArt.dto.SudokuDto;
 import com.example.SpringProjectArt.service.SudokuService;
 import com.example.SpringProjectArt.service.UserService;
+import lib.sudoku.SudokuField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,10 @@ public class SudokuController {
     {
         var res = new ResponseDto();
 
-        if (data[0][0] == 4)
-            res.isCorrect = true;
+        var sudokuField = new SudokuField();
+        sudokuField.setField(data);
+        res.isCorrect = sudokuField.checkField();
+
         return res;
     }
 

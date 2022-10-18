@@ -16,7 +16,7 @@ function Cell(props) {
            value: state.value === 9 ? '' : ++state.value
         });
 
-        props.matrix[props.row][props.row].value = state.value;
+        props.matrix[props.row][props.column].value = state.value;
     }
 
     if (props.isInitial) {
