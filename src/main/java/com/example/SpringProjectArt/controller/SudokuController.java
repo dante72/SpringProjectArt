@@ -41,6 +41,8 @@ public class SudokuController {
         sudokuField.setField(data);
         res.isCorrect = sudokuField.checkField();
 
+        var answer = sudokuField.calculate();
+
         return res;
     }
 
