@@ -1,13 +1,12 @@
 package lib.sudoku;
 
-import lombok.Data;
-import org.hibernate.annotations.Check;
-
-public class SudokuField {
+public class Sudoku {
     private int[][] field;
+    public int[][] solution = null;
+    public boolean hasSingleSolution = false;
     private final int rows = 9, columns = 9;
 
-    public SudokuField()
+    public Sudoku()
     {
         field = new int[rows][columns];
         fillField();
@@ -18,13 +17,16 @@ public class SudokuField {
         if (checkField(field))
         {
             this.field = field;
+            solution = null;
+            hasSingleSolution = false;
+
             return true;
         }
 
         return false;
     }
 
-    public boolean checkField()
+    private boolean checkField()
     {
         for (int i = 0; i < field.length; i++)
             for (int j = 0; j < field[i].length; j++)
@@ -38,7 +40,6 @@ public class SudokuField {
 
         return true;
     }
-
 
     private boolean checkField(int[][] field)
     {
@@ -152,52 +153,46 @@ public class SudokuField {
         return checkHorizontal(field, value, row, column) && checkVertical(field, value, row, column) && checkSquare(field, value, row, column);
     }
 
-    public int[][] calculate()
+    public void calculate()
     {
         var copy = copy(field);
-
-        int[][] result = null;
-        return bruteForce(copy, result);
+        bruteForce(copy);
     }
 
-    public int[][] bruteForce(int[][] field, int[][] result)
+    private void bruteForce(int[][] field)
     {
-        //if (result != null)
-            //return result;
+        int[] index = getEmptyCell(field);
 
-        int index = getEmptyCell(field);
-
-        if (index == -1)
+        if (index == null)
         {
-            result = copy(field);
-            return result;
+            solution = copy(field);
+            return;
         }
 
 
         for (int value = 1; value <= 9; value++)
         {
-            if (!check(field, value, index / rows, index % columns))
+            if (!check(field, value, index[0], index[1]))
                 continue;
 
-            field[index / rows][index % columns] = value;
-            result = bruteForce(field, result);
+            field[index[0]][index[1]] = value;
+            bruteForce(field);
 
-            if (result != null)
-                return result;
+            if (solution != null)
+                return;
         }
 
-        field[index / rows][index % columns] = 0;
-        return null;
+        field[index[0]][index[1]] = 0;
     }
 
-    public int getEmptyCell(int[][] field)
+    private int[] getEmptyCell(int[][] field)
     {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++)
                 if (field[i][j] == 0)
-                    return i * rows + j;
+                    return new int[] {i, j};
 
-        return -1;
+        return null;
     }
 
     private int[][] copy(int[][] field)

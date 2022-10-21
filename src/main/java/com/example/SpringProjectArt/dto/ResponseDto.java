@@ -1,5 +1,7 @@
 package com.example.SpringProjectArt.dto;
 
 public class ResponseDto {
-    public boolean isCorrect = false;
+
+    public boolean hasSingleSolution = false;
+    public int[][] solution = null;
 }
