@@ -10,7 +10,7 @@ public class SudokuDto {
                 array[i][j] = 0;
 
         //array[0][0] = 1;
-        //array[4][4] = 7;
+        array[4][4] = 7;
         //array[5][5] = 8;
     }
 }

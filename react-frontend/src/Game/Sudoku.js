@@ -1,95 +1,62 @@
 import './Sudoku.css';
 
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useState} from "react";
 import Cell from "./Cell";
 
-function getFieldDto(sudoku)
+export const NumbersContext = React.createContext(null);
+
+function init_field()
 {
-    let field = new Array(9);
-
-    for (let i = 0; i < field.length; i++) {
-        field[i] = new Array(9);
-    }
-
-    for (let i = 0;  i < sudoku.length; i++)
-        for (let j = 0; j < sudoku[i].length; j++)
-            field[i][j] = sudoku[i][j].value === '' ? 0 : sudoku[i][j].value;
-
-    return field;
-}
-
-
-function update_field(data)
-{
-    const field = new Array(9);
-
-    for (let i = 0; i < field.length; i++) {
-        field[i] = new Array(9);
-    }
-
-    for (let i = 0;  i < data.length; i++)
-        for (let j = 0; j < data[i].length; j++)
-            field[i][j] =
-                {
-                    value: data[i][j] === 0 ? '' : data[i][j],
-                    mark: false
-                };
-
-    return field;
+    return new Array(9)
+        .fill(new Array(9).fill(0));
 }
 
 function Sudoku() {
-// set state
-    const [state, setState] = useState({sudoku: [] });
 
-// first data grab
-    useEffect(() => {
-        fetch("http://localhost:8077/sudoku") // your url may look different
+    const [numbers, setNumbers] = useState(init_field());
+    const [marks, setMarks] = useState([]);
+    const [startNumbers, setStartNumbers] = useState([]);
+
+    let getData = () =>
+    {
+        fetch("http://localhost:8077/sudoku")
             .then(resp => resp.json())
             .then(data =>
             {
-                setState({
-                    sudoku: update_field(data)
-                });
+                setNumbers(data);
+                console.log(numbers);
             })
             .catch(error => {
                 console.log(error);
             });
-    }, []);
-
-    function checkError(matrix, row)
-    {
-        for (let i = 0; i < matrix[row].length; i++)
-            if (matrix[row][i] != 0)
-                return true;
-
-        return false;
     }
 
     let print = (matrix) =>
     {
         return (
-            <table>
-                <tbody>
-                {
-                    matrix.map((row, i)=> {
-                        return (
-                            <tr key={i}>
-                                {
-                                    row.map((column, j) => {
-                                        return (
-                                            <td key={i * 9 + j} className={(i % 3 === 0 ? "hor" : "") + (j % 3 === 0 ? " ver" : "")}>
-                                                <Cell row={i} column={j} matrix={matrix} isInitial={column.value == 0} />
-                                            </td>
-                                        );
-                                    })
-                                }
-                            </tr>
-                        );
-                    })
-                }
-                </tbody>
-            </table>
+            <NumbersContext.Provider value={numbers}>
+                <table>
+                    <tbody>
+                    {
+                        matrix.map((str, row)=> {
+                            return (
+                                <tr key={row}>
+                                    {
+                                        str.map((value, column) => {
+                                            return (
+                                                <td key={row * 9 + column} className={(row % 3 === 0 ? "hor" : "") + (column % 3 === 0 ? " ver" : "")}>
+                                                    <Cell row={row} coluumn={column} value={value} />
+                                                </td>
+                                            );
+                                        })
+                                    }
+                                </tr>
+                            );
+                        })
+                    }
+                    </tbody>
+                </table>
+            </NumbersContext.Provider>
         )
     }
 
@@ -97,18 +64,18 @@ function Sudoku() {
     const data = { username: 'example' };
     let sendSudoku = () => {
         try {
-            const response = fetch(url, {
-                method: 'POST', // или 'PUT'
-                body: JSON.stringify(getFieldDto(state.sudoku)), // данные могут быть 'строкой' или {объектом}!
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(numbers),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
                 .then(resp => resp.json())
-                .then(data => {console.log(getFieldDto(state.sudoku)); alert(data.isCorrect);});
-            //const json = await response.json();
-            //alert(response);
-            //console.log('Success:', JSON.stringify(json));
+                .then(data => {
+                    console.log(data.solution);
+                    setNumbers(data.solution);
+                });
         }
 
         catch (error) {
@@ -119,8 +86,9 @@ function Sudoku() {
 
     return (
         <>
-            {print(state.sudoku)}
-            <button onClick={sendSudoku}> Value</button>>
+            {print(numbers)}
+            <button onClick={sendSudoku}> Value</button>
+            <button onClick={getData}>Get Data</button>
         </>
     );
 }

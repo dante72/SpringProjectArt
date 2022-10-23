@@ -1,39 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import './Cell.css';
+import {NumbersContext} from "./Sudoku";
 
 function Cell(props) {
 
-    const [state, setState] = useState({value: ''});
+    const numbers = useContext(NumbersContext);
+    const [number, setNumber] = useState('');
+
     useEffect(() => {
-        setState({
-            value: props.matrix[props.row][props.column].value
-        })
+        setNumber(props.value);
     },[]);
+
+    useEffect(() => {
+        numbers[props.row][props.coluumn] = number;
+    },[number]);
 
     function handleCellClick(event)
     {
-        setState({
-           value: state.value === 9 ? '' : ++state.value
-        });
-
-        props.matrix[props.row][props.column].value = state.value;
+        console.log(numbers);
+        setNumber(number => number == 9 ? 0 : number + 1);
     }
 
-    if (props.isInitial) {
-        return (
-            <div className="cell" onClick={handleCellClick}>
-                <text className="text">{state.value}</text>
-            </div>
-        );
-    }
-    else
-    {
-        return (
-            <div className="cell initial">
-                <text className="text">{state.value}</text>
-            </div>
-        );
-    }
+    return (
+        <div className="cell" onClick={handleCellClick}>
+            {number == 0 ? '': number}
+        </div>
+    );
 }
 
 export default Cell
