@@ -7,8 +7,17 @@ export const NumbersContext = React.createContext(null);
 
 function init_field()
 {
-    return new Array(9)
-        .fill(new Array(9).fill(0));
+    return [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
 }
 
 function Sudoku() {
@@ -45,7 +54,7 @@ function Sudoku() {
                                         str.map((value, column) => {
                                             return (
                                                 <td key={row * 9 + column} className={(row % 3 === 0 ? "hor" : "") + (column % 3 === 0 ? " ver" : "")}>
-                                                    <Cell row={row} coluumn={column} value={value} />
+                                                    <Cell row={row} column={column} value={value} />
                                                 </td>
                                             );
                                         })
