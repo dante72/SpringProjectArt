@@ -16,7 +16,7 @@ function Cell(props) {
 
         return (
             <div className={(props.mark ? 'incorrect' : '') + ' cell'} onClick={handleCellClick}>
-                <text className='text'>{props.value == 0 ? '' : props.value}</text>
+                <span className='text'>{props.value == 0 ? '' : props.value}</span>
             </div>
         );
 }

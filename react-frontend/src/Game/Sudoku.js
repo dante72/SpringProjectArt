@@ -95,6 +95,57 @@ function Sudoku(props) {
             marks[i][column] = true;
     }
 
+    /*private boolean checkSquare(int[][] field, int value, int row, int column)
+    {
+        int iSquare = row / 3, jSquare = column / 3;
+
+        for (int i = iSquare * 3; i < iSquare * 3 + 3; i++)
+        for (int j = jSquare * 3; j < jSquare * 3 + 3; j++)
+        {
+            if (i == row && j == column)
+                continue;
+
+            if (field[i][j] == value)
+                return false;
+        }
+
+        return true;
+    }*/
+
+    function checkSquare(row, column) {
+
+        let iSquare = row / 3 | 0, jSquare = column / 3 | 0;
+
+        for (let i = iSquare * 3; i < iSquare * 3 + 3; i++)
+            for (let j = jSquare * 3; j < jSquare * 3 + 3; j++)
+            {
+                if (numbers[i][j] == 0 || i == row && j == column)
+                    continue;
+
+                if (numbers[i][j] == numbers[row][column])
+                    return false;
+            }
+
+        return true;
+    }
+
+    function correctSquare(iSquare, jSquare)
+    {
+        for (let i = iSquare * 3; i < iSquare * 3 + 3; i++)
+            for (let j = jSquare * 3; j < jSquare * 3 + 3; j++)
+                if (!checkSquare(i, j))
+                    return false;
+
+        return true;
+    }
+
+    function paintSquare(marks, iSquare, jSquare)
+    {
+        for (let i = iSquare * 3; i < iSquare * 3 + 3; i++)
+            for (let j = jSquare * 3; j < jSquare * 3 + 3; j++)
+                marks[i][j] = true;
+    }
+
     function create_marks()
     {
         let marks = init_field(false);
@@ -106,6 +157,11 @@ function Sudoku(props) {
             if (!correctVertical(i))
                 paintColumn(marks,  i);
 
+        for (let i = 0; i < 3; i++)
+            for (let j = 0; j < 3; j++)
+                if (!correctSquare(i, j))
+                    paintSquare(marks, i, j);
+
         return marks;
     }
 
@@ -113,7 +169,7 @@ function Sudoku(props) {
     let update = (row, column, value) => {
 
 
-        console.log(correctHorizontal(row));
+        //console.log(correctHorizontal(row));
         //console.log(checkHorizontal(row, column));
 
         numbers[row][column] = value;
@@ -121,6 +177,7 @@ function Sudoku(props) {
         setMarks(create_marks());
         setNumbers(copy(numbers));
 
+        console.log(checkSquare(row, column));
 
 
         console.log(numbers);
