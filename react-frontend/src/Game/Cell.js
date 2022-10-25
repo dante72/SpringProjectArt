@@ -1,28 +1,24 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {useEffect, useState, useContext, useRef} from "react";
 import './Cell.css';
 import {NumbersContext} from "./Sudoku";
+import {MarksContext} from "./Sudoku";
 
 function Cell(props) {
+    const marks = useContext(MarksContext);
 
-    const numbers = useContext(NumbersContext);
     const [number, setNumber] = useState(props.value);
-
-    useEffect(() =>{
-        numbers[props.row][props.column] = number;
-        console.log(numbers);
-    },[number])
-
 
     function handleCellClick(event)
     {
-        setNumber(number == 9 ? 0 : number + 1);
+        let newValue = props.value == 9 ? 0 : props.value + 1;
+        props.update(props.row, props.column, newValue);
     }
 
-    return (
-        <div className='cell' onClick={handleCellClick}>
-            <text className='text'>{number == 0 ? '': number}</text>
-        </div>
-    );
+        return (
+            <div className={(props.mark ? 'incorrect' : '') + ' cell'} onClick={handleCellClick}>
+                <text className='text'>{props.value == 0 ? '' : props.value}</text>
+            </div>
+        );
 }
 
 export default Cell

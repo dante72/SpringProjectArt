@@ -5,6 +5,7 @@
 
     display: table-cell;
     vertical-align: middle;
+    background-color: inherit;
 }
 
 .cell:hover{
@@ -14,4 +15,8 @@
 .initial {
     background-color: darkgray;
     font-weight: bold;
+}
+
+.incorrect {
+    background-color: indianred;
 }
