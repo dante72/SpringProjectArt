@@ -27,9 +27,11 @@ public class SudokuController {
     }
 
     @GetMapping("/sudoku")
-    public int[][] Sudoku()
+    public ResponseDto Sudoku()
     {
-        return new SudokuDto().array;
+        var res = new ResponseDto();
+        res.solution = new SudokuDto().array;
+        return res;
     }
 
     @PostMapping("/check")

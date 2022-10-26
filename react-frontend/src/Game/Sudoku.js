@@ -37,8 +37,11 @@ function Sudoku(props) {
             .then(resp => resp.json())
             .then(data =>
             {
-                setNumbers(data);
-                console.log(numbers);
+                let {solution} = data;
+                let {hasSingleSolution} = data;
+                setNumbers(solution);
+                console.log(solution);
+
             })
             .catch(error => {
                 console.log(error);
@@ -94,23 +97,6 @@ function Sudoku(props) {
         for (let i = 0; i < marks.length; i++)
             marks[i][column] = true;
     }
-
-    /*private boolean checkSquare(int[][] field, int value, int row, int column)
-    {
-        int iSquare = row / 3, jSquare = column / 3;
-
-        for (int i = iSquare * 3; i < iSquare * 3 + 3; i++)
-        for (int j = jSquare * 3; j < jSquare * 3 + 3; j++)
-        {
-            if (i == row && j == column)
-                continue;
-
-            if (field[i][j] == value)
-                return false;
-        }
-
-        return true;
-    }*/
 
     function checkSquare(row, column) {
 
@@ -228,8 +214,11 @@ function Sudoku(props) {
             })
                 .then(resp => resp.json())
                 .then(data => {
-                    console.log(data.solution);
-                    setNumbers(data.solution);
+                    let {solution} = data;
+                    let {hasSingleSolution} = data;
+                    console.log(solution);
+                    console.log('hasSingleSolution = ' + hasSingleSolution);
+                    setNumbers(solution);
                 });
         }
 

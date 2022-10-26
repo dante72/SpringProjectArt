@@ -3,6 +3,8 @@ package lib.sudoku;
 public class Sudoku {
     private int[][] field;
     public int[][] solution = null;
+
+    private int solutionCount = 0;
     public boolean hasSingleSolution = false;
     private final int rows = 9, columns = 9;
 
@@ -18,7 +20,7 @@ public class Sudoku {
         {
             this.field = field;
             solution = null;
-            hasSingleSolution = false;
+            solutionCount = 0;
 
             return true;
         }
@@ -165,8 +167,17 @@ public class Sudoku {
 
         if (index == null)
         {
-            solution = copy(field);
-            return;
+            if (solutionCount == 0)
+                solution = copy(field);
+
+            solutionCount++;
+
+            if (solutionCount == 1)
+                hasSingleSolution = true;
+            else
+                hasSingleSolution = false;
+
+                return;
         }
 
 
@@ -178,7 +189,7 @@ public class Sudoku {
             field[index[0]][index[1]] = value;
             bruteForce(field);
 
-            if (solution != null)
+            if (solutionCount > 1)
                 return;
         }
 
