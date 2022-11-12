@@ -1,9 +1,9 @@
 package com.example.SpringProjectArt.controller;
 
 import com.example.SpringProjectArt.dto.ResponseDto;
+import com.example.SpringProjectArt.dto.SudokuDto;
 import com.example.SpringProjectArt.service.SudokuService;
 import com.example.SpringProjectArt.service.UserService;
-import lib.sudoku.Solution;
 import lib.sudoku.Sudoku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +30,7 @@ public class SudokuController {
     public ResponseDto Sudoku()
     {
         var res = new ResponseDto();
-
-        var sudoku = new Sudoku();
-        Solution solution = sudoku.getRandomField();
-        res.solution = solution.field;
-
+        res.solution = new SudokuDto().array;
         return res;
     }
 
@@ -46,8 +42,8 @@ public class SudokuController {
 
         sudoku.setField(data);
         sudoku.calculate();
-        res.solution = sudoku.solution.field;
-        res.hasSingleSolution = sudoku.solution.hasSingleSolution;
+        res.solution = sudoku.solution;
+        res.hasSingleSolution = sudoku.hasSingleSolution;
 
         return res;
     }
