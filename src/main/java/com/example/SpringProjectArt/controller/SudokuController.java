@@ -30,7 +30,8 @@ public class SudokuController {
     public ResponseDto Sudoku()
     {
         var res = new ResponseDto();
-        res.solution = new SudokuDto().array;
+
+        res.solution = new Sudoku().getRandomField().getField();
         return res;
     }
 
@@ -43,7 +44,7 @@ public class SudokuController {
         sudoku.setField(data);
         sudoku.calculate();
         res.solution = sudoku.solution;
-        res.hasSingleSolution = sudoku.hasSingleSolution;
+        res.hasSingleSolution = sudoku.hasSingleSolution();
 
         return res;
     }

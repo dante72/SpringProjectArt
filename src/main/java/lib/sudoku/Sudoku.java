@@ -1,17 +1,23 @@
 package lib.sudoku;
 
+import java.util.List;
+
 public class Sudoku {
     private int[][] field;
     public int[][] solution = null;
 
     private int solutionCount = 0;
-    public boolean hasSingleSolution = false;
     private final int rows = 9, columns = 9;
 
     public Sudoku()
     {
         field = new int[rows][columns];
         fillField();
+    }
+
+    private static int getRandomIntegerBetweenRange(int min, int max)
+    {
+        return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
     public boolean setField(int[][] field)
@@ -26,6 +32,16 @@ public class Sudoku {
         }
 
         return false;
+    }
+
+    public int[][] getField()
+    {
+        return field;
+    }
+
+    public boolean hasSingleSolution()
+    {
+        return solutionCount == 1;
     }
 
     private boolean checkField()
@@ -157,6 +173,7 @@ public class Sudoku {
 
     public void calculate()
     {
+        solutionCount = 0;
         var copy = copy(field);
         bruteForce(copy);
     }
@@ -172,12 +189,7 @@ public class Sudoku {
 
             solutionCount++;
 
-            if (solutionCount == 1)
-                hasSingleSolution = true;
-            else
-                hasSingleSolution = false;
-
-                return;
+            return;
         }
 
 
@@ -216,4 +228,75 @@ public class Sudoku {
 
         return copy;
     }
+
+    public Sudoku getRandomField()
+    {
+        Sudoku sudoku = new Sudoku();
+
+        for (int i = 0; i < 9; i++) {
+            int index = getRandomIntegerBetweenRange(0, rows * columns - 1);
+
+            sudoku.field[index / rows][index % columns] = i + 1;
+        }
+
+        sudoku.calculate();
+        var copy = copy(sudoku.solution);
+
+        do {
+            sudoku.field = copy;
+            for (int i = 0; i < rows * columns / 8; i++) {
+
+                int index = getRandomIntegerBetweenRange(0, rows * columns - 1);
+                sudoku.field[index / rows][index % columns] = 0;
+            }
+            sudoku.calculate();
+        } while (sudoku.solutionCount > 1);
+
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++)
+                {
+                    if (sudoku.field[i][j] == 0)
+                        continue;
+
+                    int tmp = sudoku.field[i][j];
+                    sudoku.field[i][j] = 0;
+                    sudoku.calculate();
+
+                    if (sudoku.solutionCount > 1)
+                        sudoku.field[i][j] = tmp;
+                }
+            }
+
+        return sudoku;
+    }
+
+    private int getNumber()
+    {
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                if (field[i][j] != 0)
+                    return i * rows + j;
+
+        return -1;
+    }
+
+    /*private void getRandomField1(Solution solution)
+    {
+        //getRandomField();
+
+        for (int i = 0; i < 40; i++) {
+
+            int index = getRandomIntegerBetweenRange(0, 80);
+            solution.field[index / rows][index % columns] = 0;
+        }
+
+        //var copy = copy(solution.field);
+
+        //int index = getRandomIntegerBetweenRange(0, 80);
+        //int number = getRandomIntegerBetweenRange(1, 9);
+
+        //copy[index / rows][index % columns] = number;
+        //bruteForce(copy);
+    }*/
 }
