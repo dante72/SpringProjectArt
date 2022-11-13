@@ -26,8 +26,7 @@ function Sudoku(props) {
     const [numbers, setNumbers] = useState(init_field(0));
     const [marks, setMarks] = useState(init_field(false));
     const [initNumbers, setInitNumber] = useState(init_field(0));
-    const [startNumbers, setStartNumbers] = useState([]);
-    const [target, setTarget] = useState(numbers[0][0]);
+    let target = {value : []};
 
     let getData = () =>
     {
@@ -205,7 +204,9 @@ function Sudoku(props) {
                                                           value={value}
                                                           mark={marks[row][column]}
                                                           init={initNumbers[row][column]}
-                                                          update={update} />
+                                                          update={update}
+                                                          target={target}
+                                                    />
                                                 </td>
                                             );
                                         })

@@ -6,6 +6,7 @@
     display: table-cell;
     vertical-align: middle;
     background-color: inherit;
+    cursor: grab;
 }
 
 .cell:hover{
@@ -15,6 +16,7 @@
 .init {
     background-color: darkgray;
     font-weight: bold;
+    cursor: default;
 }
 
 .incorrect {
