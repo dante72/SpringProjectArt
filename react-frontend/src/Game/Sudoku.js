@@ -37,11 +37,11 @@ function Sudoku(props) {
             {
                 let {solution} = data;
                 let {hasSingleSolution} = data;
-                setNumbers(solution);
-                setInitNumber(solution);
+                setInitNumber(copy(solution));
+                setNumbers(copy(solution));
                 //setInitNumber(paintInitNumbers(solution));
-                console.log(numbers);
-                console.log(initNumbers);
+                //console.log(numbers);
+                //console.log(initNumbers);
 
             })
             .catch(error => {
@@ -166,6 +166,10 @@ function Sudoku(props) {
 
     let update = (row, column, value) => {
 
+        console.log(numbers);
+        console.log(initNumbers);
+        if (initNumbers[row][column] > 0)
+            return;
 
         //console.log(correctHorizontal(row));
         //console.log(checkHorizontal(row, column));
@@ -175,11 +179,11 @@ function Sudoku(props) {
         setMarks(create_marks());
         setNumbers(copy(numbers));
 
-        console.log(checkSquare(row, column));
+        //console.log(checkSquare(row, column));
 
 
-        console.log(numbers);
-        console.log(marks);
+       // console.log(numbers);
+        //console.log(marks);
     }
 
     let print = () =>
