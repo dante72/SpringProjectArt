@@ -3,10 +3,6 @@ import './Sudoku.css';
 import React, {useEffect, useRef, useState} from "react";
 import Cell from "./Cell";
 
-export const NumbersContext = React.createContext(null);
-export const MarksContext = React.createContext(null);
-export const InitNumbersContext = React.createContext(null);
-
 function init_field(init_val)
 {
     return new Array(9).fill(null).map(_ =>
@@ -189,10 +185,7 @@ function Sudoku(props) {
     let print = () =>
     {
         return (
-            <MarksContext.Provider value={marks}>
-            <NumbersContext.Provider value={numbers}>
-                <InitNumbersContext.Provider value={initNumbers}>
-                <table>
+            <table>
                     <tbody>
                     {
                         numbers.map((str, row)=> {
@@ -219,9 +212,6 @@ function Sudoku(props) {
                     }
                     </tbody>
                 </table>
-                </InitNumbersContext.Provider>
-            </NumbersContext.Provider>
-            </MarksContext.Provider>
         )
     }
 

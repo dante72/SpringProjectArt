@@ -1,10 +1,7 @@
 import React, {useEffect, useState, useContext, useRef} from "react";
 import './Cell.css';
-import {NumbersContext} from "./Sudoku";
-import {MarksContext} from "./Sudoku";
 
 function Cell(props) {
-    const marks = useContext(MarksContext);
 
     const [number, setNumber] = useState(props.value);
 
