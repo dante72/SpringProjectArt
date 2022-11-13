@@ -1,7 +1,6 @@
 package com.example.SpringProjectArt.controller;
 
 import com.example.SpringProjectArt.dto.ResponseDto;
-import com.example.SpringProjectArt.dto.SudokuDto;
 import com.example.SpringProjectArt.service.SudokuService;
 import com.example.SpringProjectArt.service.UserService;
 import lib.sudoku.Sudoku;
@@ -31,7 +30,7 @@ public class SudokuController {
     {
         var res = new ResponseDto();
 
-        res.solution = new Sudoku().getRandomField().getField();
+        res.solution = new Sudoku().generate().getField();
         return res;
     }
 

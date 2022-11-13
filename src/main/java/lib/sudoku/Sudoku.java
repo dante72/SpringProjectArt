@@ -1,7 +1,5 @@
 package lib.sudoku;
 
-import java.util.List;
-
 public class Sudoku {
     private int[][] field;
     public int[][] solution = null;
@@ -229,7 +227,7 @@ public class Sudoku {
         return copy;
     }
 
-    public Sudoku getRandomField()
+    public Sudoku generate()
     {
         Sudoku sudoku = new Sudoku();
 
@@ -243,7 +241,7 @@ public class Sudoku {
         var copy = copy(sudoku.solution);
 
         do {
-            sudoku.field = copy;
+            sudoku.field = copy(copy);
             for (int i = 0; i < rows * columns / 8; i++) {
 
                 int index = getRandomIntegerBetweenRange(0, rows * columns - 1);
@@ -251,7 +249,6 @@ public class Sudoku {
             }
             sudoku.calculate();
         } while (sudoku.solutionCount > 1);
-
 
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++)
@@ -268,7 +265,116 @@ public class Sudoku {
                 }
             }
 
+        randomTransform(sudoku.field);
+
         return sudoku;
+    }
+
+    private void randomTransform(int[][] field)
+    {
+        int count = getRandomIntegerBetweenRange(4, 9);
+        for (int i = 0; i < count; i++)
+            doRandomSwap(field, getRandomIntegerBetweenRange(0, 4));
+    }
+    private void doRandomSwap(int[][] field, int randomIndex)
+    {
+        switch (randomIndex)
+        {
+            case 0:
+                randomSwapColumnsArea(field);
+                break;
+            case 1:
+                randomSwapRowsArea(field);
+                break;
+            case 2:
+                randomSwapRowsSmall(field);
+                break;
+            case 3:
+                randomSwapColumnsSmall(field);
+                break;
+            case 4:
+                transposition(field);
+                break;
+            default:
+                break;
+        }
+    }
+    private void randomSwapColumnsArea(int[][] field)
+    {
+        transposition(field);
+        randomSwapRowsArea(field);
+        transposition(field);
+    }
+
+    private void randomSwapRowsArea(int[][] field)
+    {
+        int areaIndex1, areaIndex2;
+        do {
+            areaIndex1 = getRandomIntegerBetweenRange(0, 2);
+            areaIndex2 = getRandomIntegerBetweenRange(0, 2);
+        } while (areaIndex1 == areaIndex2);
+
+        swapRowsArea(field, areaIndex1, areaIndex2);
+    }
+
+    private void randomSwapRowsSmall(int[][] field)
+    {
+        int rowIndex1, rowIndex2;
+        int areaIndex = getRandomIntegerBetweenRange(0, 2);
+        do {
+            rowIndex1 = getRandomIntegerBetweenRange(0, 2);
+            rowIndex2 = getRandomIntegerBetweenRange(0, 2);
+        } while (rowIndex1 == rowIndex2);
+
+        swapRowsSmall(field, areaIndex * 3 + rowIndex1, areaIndex * 3 + rowIndex2);
+    }
+
+    private void randomSwapColumnsSmall(int[][] field)
+    {
+        transposition(field);
+        randomSwapRowsSmall(field);
+        transposition(field);
+    }
+
+    private void transposition(int[][] field)
+    {
+        for (int i = 0; i < field.length; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                int tmp = field[i][j];
+                field[i][j] = field[j][i];
+                field[j][i] = tmp;
+            }
+        }
+    }
+
+
+    private void swapRowsSmall(int[][] field, int row1, int row2)
+    {
+        int[] tmp = field[row1];
+        field[row1] = field[row2];
+        field[row2] = tmp;
+    }
+
+    private void swapColumnsSmall(int[][] field, int column1, int column2)
+    {
+        transposition(field);
+        swapRowsSmall(field, column1, column2);
+        transposition(field);
+    }
+
+    private void swapRowsArea(int[][] field, int areaRow1, int areaRow2)
+    {
+        for (int i = 0; i < 3; i++)
+            swapRowsSmall(field, areaRow1 * 3 + i, areaRow2 * 3 + i);
+    }
+
+    private void swapColumnsArea(int[][] field, int areaColumn1, int areaColumn2)
+    {
+        transposition(field);
+        swapRowsArea(field, areaColumn1, areaColumn2);
+        transposition(field);
     }
 
     private int getNumber()
