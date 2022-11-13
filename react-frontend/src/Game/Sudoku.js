@@ -5,6 +5,7 @@ import Cell from "./Cell";
 
 export const NumbersContext = React.createContext(null);
 export const MarksContext = React.createContext(null);
+export const InitNumbersContext = React.createContext(null);
 
 function init_field(init_val)
 {
@@ -28,6 +29,7 @@ function Sudoku(props) {
 
     const [numbers, setNumbers] = useState(init_field(0));
     const [marks, setMarks] = useState(init_field(false));
+    const [initNumbers, setInitNumber] = useState(init_field(0));
     const [startNumbers, setStartNumbers] = useState([]);
     const [target, setTarget] = useState(numbers[0][0]);
 
@@ -40,12 +42,26 @@ function Sudoku(props) {
                 let {solution} = data;
                 let {hasSingleSolution} = data;
                 setNumbers(solution);
-                console.log(solution);
+                setInitNumber(solution);
+                //setInitNumber(paintInitNumbers(solution));
+                console.log(numbers);
+                console.log(initNumbers);
 
             })
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    function paintInitNumbers(data)
+    {
+        let field = init_field(false);
+        for (let i = 0; i < data.length; i++)
+            for (let j = 0; j < data[i].length; j++)
+                if (data[i][j] == 0)
+                    field[i][j] = true;
+
+        return field;
     }
 
     function checkHorizontal(row, column) {
@@ -175,6 +191,7 @@ function Sudoku(props) {
         return (
             <MarksContext.Provider value={marks}>
             <NumbersContext.Provider value={numbers}>
+                <InitNumbersContext.Provider value={initNumbers}>
                 <table>
                     <tbody>
                     {
@@ -184,8 +201,14 @@ function Sudoku(props) {
                                     {
                                         str.map((value, column) => {
                                             return (
-                                                <td key={row * 9 + column} className={(row % 3 === 0 ? "hor" : "") + (column % 3 === 0 ? " ver" : "")}>
-                                                    <Cell row={row} column={column} value={value} mark={marks[row][column]} update={update} />
+                                                <td key={row * 9 + column}
+                                                    className={(row % 3 === 0 ? "hor" : "") + (column % 3 === 0 ? " ver" : "")}>
+                                                    <Cell row={row}
+                                                          column={column}
+                                                          value={value}
+                                                          mark={marks[row][column]}
+                                                          init={initNumbers[row][column]}
+                                                          update={update} />
                                                 </td>
                                             );
                                         })
@@ -196,6 +219,7 @@ function Sudoku(props) {
                     }
                     </tbody>
                 </table>
+                </InitNumbersContext.Provider>
             </NumbersContext.Provider>
             </MarksContext.Provider>
         )
