@@ -251,11 +251,11 @@ public class Sudoku {
             sudoku.calculate();
         } while (sudoku.solutionCount > 1);
 
-            int k, t;
+            int k, t, removingIndex = getRandomIntegerBetweenRange(0, 2);
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (i % 2 == 0 && j % 2 != 0)
+                    if (randomRemovingNumber(removingIndex, i, j))
                     {
                         k = i;
                         t = j;
@@ -281,6 +281,28 @@ public class Sudoku {
 
         return sudoku;
     }
+
+    private boolean chessRandom(int i, int j)
+    {
+        return i % 2 == 0 && j % 2 != 0 || i % 2 != 0 && j % 2 == 0;
+    }
+
+    private boolean halfChessRandom(int i, int j)
+    {
+        return i % 2 == 0 && j % 2 != 0;
+    }
+
+    private boolean randomRemovingNumber(int randomIndex, int i, int j)
+    {
+        switch (randomIndex)
+        {
+            case 0:
+                return chessRandom(i, j);
+            default:
+                return halfChessRandom(i, j);
+        }
+    }
+
 
     private void randomTransform(int[][] field)
     {
