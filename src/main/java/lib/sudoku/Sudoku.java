@@ -251,18 +251,29 @@ public class Sudoku {
             sudoku.calculate();
         } while (sudoku.solutionCount > 1);
 
+            int k, t;
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (sudoku.field[i][j] == 0)
+                    if (i % 2 == 0 && j % 2 != 0)
+                    {
+                        k = i;
+                        t = j;
+                    }
+                    else
+                    {
+                        k = rows - 1 - i;
+                        t = columns - 1 - j;
+                    }
+                    if (sudoku.field[k][t] == 0)
                         continue;
 
-                    int tmp = sudoku.field[i][j];
-                    sudoku.field[i][j] = 0;
+                    int tmp = sudoku.field[k][t];
+                    sudoku.field[k][t] = 0;
                     sudoku.calculate();
 
                     if (sudoku.solutionCount > 1)
-                        sudoku.field[i][j] = tmp;
+                        sudoku.field[k][t] = tmp;
                 }
             }
 
