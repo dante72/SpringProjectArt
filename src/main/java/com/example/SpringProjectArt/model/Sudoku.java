@@ -15,4 +15,7 @@ public class Sudoku extends BaseEntity {
 
     @Column(name = "rating")
     private int rating;
+
+    @Column(name = "count_generated")
+    private int countGenerated;
 }

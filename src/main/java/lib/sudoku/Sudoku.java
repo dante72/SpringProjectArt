@@ -2,10 +2,10 @@ package lib.sudoku;
 
 public class Sudoku {
     private int[][] field;
-    public int[][] solution = null;
+    private int[][] solution = null;
 
     private int solutionCount = 0;
-    private final int rows = 9, columns = 9;
+    private static final int rows = 9, columns = 9;
 
     public Sudoku()
     {
@@ -36,6 +36,7 @@ public class Sudoku {
     {
         return field;
     }
+    public int[][] getSolution() {return solution;}
 
     public boolean hasSingleSolution()
     {
@@ -387,22 +388,58 @@ public class Sudoku {
         return -1;
     }
 
-    /*private void getRandomField1(Solution solution)
+    public static String toString(int[][] field)
     {
-        //getRandomField();
-
-        for (int i = 0; i < 40; i++) {
-
-            int index = getRandomIntegerBetweenRange(0, 80);
-            solution.field[index / rows][index % columns] = 0;
+        String str = "";
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                str += field[i][j];
+            }
         }
 
-        //var copy = copy(solution.field);
+        return str;
+    }
 
-        //int index = getRandomIntegerBetweenRange(0, 80);
-        //int number = getRandomIntegerBetweenRange(1, 9);
+    public static int[][] fromString(String str) {
+        var field = new int[rows][columns];
+        var chars = str.toCharArray();
 
-        //copy[index / rows][index % columns] = number;
-        //bruteForce(copy);
-    }*/
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                field[i][j] = chars[i * rows + j] - '0';
+            }
+        }
+
+        return field;
+    }
+
+    public int getRating()
+    {
+        int rating = 0, count;
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (field[i][j] > 0)
+                    continue;
+
+                count = 0;
+                for (int value = 1; value <= 9; value++)
+                {
+                    if (check(field, value, i, j))
+                        count++;
+
+                }
+
+                if (count == 2)
+                    rating += 100;
+                else if (count == 1)
+                    rating += 1;
+            }
+        }
+        return rating;
+    }
 }

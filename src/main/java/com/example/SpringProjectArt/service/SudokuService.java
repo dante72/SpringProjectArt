@@ -9,5 +9,5 @@ public interface SudokuService {
     Sudoku findById(Long id);
     void delete(Long id);
 
-    void add(String value);
+    void add(String value, int rating);
 }

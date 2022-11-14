@@ -41,11 +41,21 @@ public class SudokuServiceImpl implements SudokuService {
     }
 
     @Override
-    public void add(String value) {
+    public void add(String value, int rating) {
 
-        var item = new Sudoku();
-        item.setValue(value);
-
-        sudokuRepository.save(item);
+        Sudoku sudoku = sudokuRepository.findByValue(value);
+        if (sudoku == null) {
+            var item = new Sudoku();
+            item.setValue(value);
+            item.setRating(rating);
+            item.setCountGenerated(1);
+            sudokuRepository.save(item);
+        }
+        else
+        {
+            sudoku.setRating(rating);
+            sudoku.setCountGenerated(sudoku.getCountGenerated() + 1);
+            sudokuRepository.save(sudoku);
+        }
     }
 }
