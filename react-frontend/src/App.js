@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Sudoku from "./Game/Sudoku";
+import SudokuPanel from "./Game/SudokuPanel";
 
 function App() {
   return (

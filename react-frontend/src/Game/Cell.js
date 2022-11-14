@@ -5,6 +5,8 @@ function Cell(props) {
 
     function handleCellClick(event)
     {
+        if (props.init > 0)
+            return;
         let newValue = props.value == 9 ? 0 : props.value + 1;
         props.update(props.row, props.column, newValue);
     }
@@ -15,18 +17,20 @@ function Cell(props) {
     }
 
     function dragEndHandler(e, value) {
-        props.update(props.target.value.row, props.target.value.column, value);
+        if (props.target.value.init === 0)
+            props.update(props.target.value.row, props.target.value.column, value);
         props.update(props.row, props.column, 0);
         console.log('drag end', props.target.value);
     }
 
-    function dragOverHandler(e, row, column, value) {
-        console.log('drag over', row, column, value);
+    function dragOverHandler(e, row, column, value, init) {
+        console.log('drag over', row, column, value, init);
         props.target.value = (
             {
                 row: row,
                 column: column,
-                value: value
+                value: value,
+                init: init
             }
         );
     }
@@ -40,9 +44,9 @@ function Cell(props) {
                  onClick={handleCellClick}
                  onDragStart={(e) => dragStartHandler(e, props.row, props.column, props.value)}
                  onDragEnd={(e) => dragEndHandler(e, props.value)}
-                 onDragOver={(e) => dragOverHandler(e, props.row, props.column, props.value)}
+                 onDragOver={(e) => dragOverHandler(e, props.row, props.column, props.value, props.init)}
                  onDrop={(e) => dropHandler(e)}
-                 draggable={props.init === 0}
+                 draggable={true}
             >
                 <span className='text'>{props.value == 0 ? '' : props.value}</span>
             </div>

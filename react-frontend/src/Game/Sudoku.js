@@ -2,6 +2,7 @@ import './Sudoku.css';
 
 import React, {useEffect, useRef, useState} from "react";
 import Cell from "./Cell";
+import SudokuPanel from "./SudokuPanel";
 
 function init_field(init_val)
 {
@@ -252,6 +253,7 @@ function Sudoku(props) {
             {print(numbers)}
             <button onClick={sendSudoku}> Value</button>
             <button onClick={getData}>Get Data</button>
+            <SudokuPanel target={target} update={update}></SudokuPanel>
         </>
     );
 }
