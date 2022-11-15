@@ -27,6 +27,7 @@ function Sudoku(props) {
     const [numbers, setNumbers] = useState(init_field(0));
     const [marks, setMarks] = useState(init_field(false));
     const [initNumbers, setInitNumber] = useState(init_field(0));
+    const [id, setId] = useState(1);
     let target = {value : []};
 
     let getData = () =>
@@ -42,6 +43,23 @@ function Sudoku(props) {
                 //setInitNumber(paintInitNumbers(solution));
                 //console.log(numbers);
                 //console.log(initNumbers);
+
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    let getDbData = () =>
+    {
+        fetch("http://localhost:8077/db_sudoku?id=" + id)
+            .then(resp => resp.json())
+            .then(data =>
+            {
+                let {solution} = data;
+                //let {hasSingleSolution} = data;
+                setInitNumber(copy(solution));
+                setNumbers(copy(solution));
 
             })
             .catch(error => {
@@ -248,11 +266,17 @@ function Sudoku(props) {
         }
     }
 
+    function handleInputChange(e) {
+        setId(e.target.value);
+    }
+
     return (
         <>
             {print(numbers)}
             <button onClick={sendSudoku}> Value</button>
             <button onClick={getData}>Get Data</button>
+            <button onClick={getDbData}>Get Db Data</button>
+            <input type="text" onChange={handleInputChange}/>
             <SudokuPanel target={target} update={update}></SudokuPanel>
         </>
     );

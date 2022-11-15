@@ -44,6 +44,17 @@ public class SudokuController {
         return res;
     }
 
+    @GetMapping("/db_sudoku")
+    public ResponseDto DbSudoku(long id)
+    {
+        var res = new ResponseDto();
+
+        var str = sudokuService.findById(id).getValue();
+        res.solution = Sudoku.fromString(str);
+
+        return res;
+    }
+
     @PostMapping("/check")
     public ResponseDto Sudoku1(@RequestBody int[][] data)
     {

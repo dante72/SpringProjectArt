@@ -30,7 +30,11 @@ public class SudokuServiceImpl implements SudokuService {
 
     @Override
     public Sudoku findById(Long id) {
-        return null;
+        var item = sudokuRepository.findById(id);
+        if (item.isPresent())
+            return item.get();
+        else
+            return null;
     }
 
     @Override
