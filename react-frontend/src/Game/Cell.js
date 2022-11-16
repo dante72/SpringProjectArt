@@ -40,7 +40,7 @@ function Cell(props) {
     }
 
     return (
-            <div className={(props.mark ? 'incorrect' : '') + ' cell' + (props.init !== 0 ? ' init' : '')}
+            <div className={(props.mark ? 'incorrect' : '') + ' cell' + (props.init !== 0 ? ' init' : '') + (props.value == 0 && props.help > -1 ? ' help' : '')}
                  onClick={handleCellClick}
                  onDragStart={(e) => dragStartHandler(e, props.row, props.column, props.value)}
                  onDragEnd={(e) => dragEndHandler(e, props.value)}
@@ -48,7 +48,7 @@ function Cell(props) {
                  onDrop={(e) => dropHandler(e)}
                  draggable={true}
             >
-                <span className='text'>{props.value == 0 ? '' : props.value}</span>
+                <span className='text'>{props.value == 0 ? (props.help == -1 ? '' : props.help): props.value}</span>
             </div>
         );
 }

@@ -15,10 +15,15 @@
 
 .init {
     background-color: darkgray;
-    font-weight: bold;
+    font-weight: bolder;
     cursor: default;
 }
 
 .incorrect {
     background-color: cornflowerblue;
+}
+
+.help {
+    color: rgba(0, 0, 0, 0.3);
+    font-style: italic;
 }

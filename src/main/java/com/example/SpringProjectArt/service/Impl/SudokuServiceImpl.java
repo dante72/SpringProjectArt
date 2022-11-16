@@ -18,6 +18,7 @@ import java.util.concurrent.*;
 public class SudokuServiceImpl implements SudokuService {
 
     private ExecutorService executor;
+    private Integer successCount = 0;
     private final SudokuRepository sudokuRepository;
 
     public SudokuServiceImpl(SudokuRepository sudokuRepository) {
@@ -78,10 +79,12 @@ public class SudokuServiceImpl implements SudokuService {
 
             response.isSuccess = false;
             response.message = "task isn't completed";
+            response.successCount = successCount;
 
             return  response;
         }
 
+        successCount = 0;
         List<Future<Integer>> taskResults = new ArrayList<Future<Integer>>();
         Callable task = () -> {
             try {
@@ -98,7 +101,7 @@ public class SudokuServiceImpl implements SudokuService {
         executor = Executors.newFixedThreadPool(processors);
 
 
-        Integer successCount = 0;
+        successCount = 0;
         try {
             var start = new Date().getTime();
 
@@ -108,20 +111,17 @@ public class SudokuServiceImpl implements SudokuService {
             }
 
             for (Future<Integer> taskResult : taskResults) {
-                try {
                     successCount += taskResult.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
             }
 
-            executor.shutdownNow();
             var stop = new Date().getTime();
 
             response.isSuccess = true;
             response.message = "Task complete!";
             response.successCount = successCount;
             response.time = timeFormat(stop - start);
+
+            executor.shutdown();
 
             return response;
         }
@@ -172,6 +172,13 @@ public class SudokuServiceImpl implements SudokuService {
         sudoku.calculate();
 
         return sudoku;
+    }
+
+    @Override
+    public int[][] help(int[][] field) {
+        var sudoku = new lib.sudoku.Sudoku();
+        sudoku.setField(field);
+        return sudoku.getHelp();
     }
 
 }

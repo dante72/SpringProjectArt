@@ -475,4 +475,35 @@ public class Sudoku {
         }
         return rating;
     }
+
+    public int[][] getHelp()
+    {
+
+        int[][] result = new int[rows][columns];
+        for (int i = 0; i < result.length; i++)
+            for (int j = 0; j < result[i].length; j++)
+                result[i][j] = -1;
+
+        int count;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (field[i][j] > 0)
+                    continue;
+
+                count = 0;
+                for (int value = 1; value <= 9; value++)
+                {
+                    if (check(field, value, i, j))
+                        count++;
+
+                }
+
+                result[i][j] = count;
+
+            }
+        }
+        return result;
+    }
 }

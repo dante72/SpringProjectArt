@@ -28,6 +28,9 @@ function Sudoku(props) {
     const [marks, setMarks] = useState(init_field(false));
     const [initNumbers, setInitNumber] = useState(init_field(0));
     const [id, setId] = useState(1);
+    const [help, setHelp] = useState(init_field(-1));
+
+
     let target = {value : []};
 
     let getData = () =>
@@ -58,6 +61,8 @@ function Sudoku(props) {
             {
                 let {solution} = data;
                 //let {hasSingleSolution} = data;
+                setHelp(init_field(-1));
+                setMarks(init_field(false));
                 setInitNumber(copy(solution));
                 setNumbers(copy(solution));
 
@@ -194,6 +199,7 @@ function Sudoku(props) {
 
         numbers[row][column] = value;
 
+        setHelp(init_field(-1));
         setMarks(create_marks());
         setNumbers(copy(numbers));
 
@@ -225,6 +231,7 @@ function Sudoku(props) {
                                                           init={initNumbers[row][column]}
                                                           update={update}
                                                           target={target}
+                                                          help={help[row][column]}
                                                     />
                                                 </td>
                                             );
@@ -256,7 +263,34 @@ function Sudoku(props) {
                     let {hasSingleSolution} = data;
                     console.log(solution);
                     console.log('hasSingleSolution = ' + hasSingleSolution);
+                    setHelp(init_field(-1));
+                    setMarks(create_marks());
                     setNumbers(solution);
+                });
+        }
+
+        catch (error) {
+            alert("Error: " + error)
+            console.error('Error:', error);
+        }
+    }
+
+    let getHelp = () => {
+        try {
+            fetch('http://localhost:8077/help', {
+                method: 'POST',
+                body: JSON.stringify(numbers),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .then(data => {
+
+                    console.log(data);
+
+                    setHelp(data);
+                    setNumbers(copy(numbers));
                 });
         }
 
@@ -275,6 +309,7 @@ function Sudoku(props) {
             {print(numbers)}
             <button onClick={sendSudoku}> Value</button>
             <button onClick={getData}>Get Data</button>
+            <button onClick={getHelp}>Help</button>
             <button onClick={getDbData}>Get Db Data</button>
             <input type="text" onChange={handleInputChange}/>
             <SudokuPanel target={target} update={update}></SudokuPanel>

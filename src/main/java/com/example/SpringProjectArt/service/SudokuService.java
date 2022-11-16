@@ -14,4 +14,5 @@ public interface SudokuService {
     GenerateDto stopGenerate();
     lib.sudoku.Sudoku generate();
     lib.sudoku.Sudoku check(int[][] field);
+    int[][] help(int[][] field);
 }

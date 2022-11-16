@@ -65,4 +65,10 @@ public class SudokuController {
         return sudokuService.startGenerate(count);
     }
 
+    @PostMapping("/help")
+    public int[][] help(@RequestBody int[][] data)
+    {
+        return sudokuService.help(data);
+    }
+
 }
