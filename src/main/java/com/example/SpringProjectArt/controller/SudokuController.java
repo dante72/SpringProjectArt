@@ -1,10 +1,10 @@
 package com.example.SpringProjectArt.controller;
 
+import com.example.SpringProjectArt.dto.GenerateDto;
 import com.example.SpringProjectArt.dto.ResponseDto;
 import com.example.SpringProjectArt.service.SudokuService;
 import com.example.SpringProjectArt.service.UserService;
 import lib.sudoku.Sudoku;
-import org.aspectj.apache.bcel.classfile.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +53,16 @@ public class SudokuController {
     {
         var res = new ResponseDto();
         var sudoku = sudokuService.check(data);
-
         res.solution = sudoku.getSolution();
         res.hasSingleSolution = sudoku.hasSingleSolution();
 
         return res;
     }
 
+    @GetMapping("/generate")
+    public GenerateDto generate(int count) {
+
+        return sudokuService.startGenerate(count);
+    }
 
 }

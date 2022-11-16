@@ -2,11 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import Sudoku from "./Game/Sudoku";
 import SudokuPanel from "./Game/SudokuPanel";
+import Generator from "./Game/Generator";
 
 function App() {
   return (
     <div className="App">
-      <Sudoku></Sudoku>
+        <Sudoku></Sudoku>
+        <Generator></Generator>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

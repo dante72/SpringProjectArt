@@ -1,5 +1,6 @@
 package com.example.SpringProjectArt.service;
 
+import com.example.SpringProjectArt.dto.GenerateDto;
 import com.example.SpringProjectArt.model.Sudoku;
 import java.util.List;
 
@@ -9,8 +10,8 @@ public interface SudokuService {
     Sudoku findById(Long id);
     void delete(Long id);
     void add(String value, int rating);
-    boolean startGenerate();
-    boolean stopGenerate();
+    GenerateDto startGenerate(int count);
+    GenerateDto stopGenerate();
     lib.sudoku.Sudoku generate();
     lib.sudoku.Sudoku check(int[][] field);
 }
