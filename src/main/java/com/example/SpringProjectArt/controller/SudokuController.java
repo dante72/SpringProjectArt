@@ -32,15 +32,8 @@ public class SudokuController {
     public ResponseDto Sudoku()
     {
         var res = new ResponseDto();
-
-        Sudoku newField = new Sudoku().generate();
-        res.solution = newField.getField();
-        int rating = newField.getRating();
-
-        var str = Sudoku.toString(res.solution);
-        //var rr = Sudoku.fromString(str);
-
-        sudokuService.add(str, rating);
+        var sudoku = sudokuService.generate();
+        res.solution = sudoku.getField();
         return res;
     }
 
@@ -59,10 +52,8 @@ public class SudokuController {
     public ResponseDto Sudoku1(@RequestBody int[][] data)
     {
         var res = new ResponseDto();
-        var sudoku = new Sudoku();
+        var sudoku = sudokuService.check(data);
 
-        sudoku.setField(data);
-        sudoku.calculate();
         res.solution = sudoku.getSolution();
         res.hasSingleSolution = sudoku.hasSingleSolution();
 

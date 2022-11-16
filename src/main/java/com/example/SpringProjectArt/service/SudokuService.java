@@ -8,6 +8,9 @@ public interface SudokuService {
     Sudoku findByValue(String value);
     Sudoku findById(Long id);
     void delete(Long id);
-
     void add(String value, int rating);
+    boolean startGenerate();
+    boolean stopGenerate();
+    lib.sudoku.Sudoku generate();
+    lib.sudoku.Sudoku check(int[][] field);
 }
