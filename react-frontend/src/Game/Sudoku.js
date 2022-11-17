@@ -40,6 +40,8 @@ function Sudoku(props) {
             {
                 let {solution} = data;
                 let {hasSingleSolution} = data;
+                setHelp(init_field(-1));
+                setMarks(init_field(false));
                 setInitNumber(copy(solution));
                 setNumbers(copy(solution));
                 //setInitNumber(paintInitNumbers(solution));
@@ -259,12 +261,24 @@ function Sudoku(props) {
                 .then(resp => resp.json())
                 .then(data => {
                     let {solution} = data;
-                    let {hasSingleSolution} = data;
-                    console.log(solution);
-                    console.log('hasSingleSolution = ' + hasSingleSolution);
-                    setHelp(init_field(-1));
-                    setMarks(create_marks());
-                    setNumbers(solution);
+
+                    if (solution != null) {
+
+                        let {hasSingleSolution} = data;
+                        console.log(solution);
+                        console.log('hasSingleSolution = ' + hasSingleSolution);
+                        setHelp(init_field(-1));
+                        setMarks(create_marks());
+                        setNumbers(solution);
+
+                        if (hasSingleSolution)
+                            alert("sudoku solution is unique");
+                        else
+                            alert("sudoku solution isn't unique");
+                    }
+                    else {
+                        alert("There's no solution");
+                    }
                 });
         }
 

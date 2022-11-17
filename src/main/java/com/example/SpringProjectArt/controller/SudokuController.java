@@ -16,6 +16,7 @@ public class SudokuController {
     private final UserService userService;
     private final SudokuService sudokuService;
 
+
     Logger logger = LoggerFactory.getLogger(SudokuController.class);
     @Autowired
     public SudokuController(UserService userService, SudokuService sudokuService)
@@ -66,4 +67,5 @@ public class SudokuController {
     {
         return sudokuService.help(data);
     }
+
 }
