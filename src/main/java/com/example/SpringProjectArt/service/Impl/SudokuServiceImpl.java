@@ -5,6 +5,7 @@ import com.example.SpringProjectArt.model.Sudoku;
 import com.example.SpringProjectArt.repository.SudokuRepository;
 import com.example.SpringProjectArt.service.SudokuService;
 
+import lib.sudoku.GeneratorTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +85,7 @@ public class SudokuServiceImpl implements SudokuService {
             return  response;
         }
 
+        int processors = Runtime.getRuntime().availableProcessors();
         successCount = 0;
         List<Future<Integer>> taskResults = new ArrayList<Future<Integer>>();
         Callable task = () -> {
@@ -97,16 +99,26 @@ public class SudokuServiceImpl implements SudokuService {
             }
         };
 
-        int processors = Runtime.getRuntime().availableProcessors();
         executor = Executors.newFixedThreadPool(processors);
 
 
         successCount = 0;
+
+        int tasks = count / (processors - 1);
         try {
             var start = new Date().getTime();
 
-            for (int i = 0; i < count; i++) {
-                var future = executor.submit(task);
+            for (int i = 0; i < processors; i++) {
+
+                GeneratorTask gTask;
+                if (i == processors - 1) {
+                    gTask = new GeneratorTask(this, count % (processors - 1));
+                }
+                else
+                {
+                    gTask = new GeneratorTask(this, tasks);
+                }
+                var future = executor.submit(gTask);
                 taskResults.add(future);
             }
 
