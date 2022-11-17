@@ -101,7 +101,6 @@ public class SudokuServiceImpl implements SudokuService {
 
         executor = Executors.newFixedThreadPool(processors);
 
-
         successCount = 0;
 
         int tasks = count / (processors - 1);

@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Cell from "./Cell";
 import SudokuPanel from "./SudokuPanel";
 import './Sudoku.css';
+import StatusPanel from "./StatusPanel";
 
 function init_field(init_val)
 {
@@ -28,6 +29,7 @@ function Sudoku(props) {
     const [initNumbers, setInitNumber] = useState(init_field(0));
     const [id, setId] = useState(1);
     const [help, setHelp] = useState(init_field(-1));
+    const [status, setStatus] = useState('');
 
 
     let target = {value : []};
@@ -40,6 +42,8 @@ function Sudoku(props) {
             {
                 let {solution} = data;
                 let {hasSingleSolution} = data;
+
+                setStatus('');
                 setHelp(init_field(-1));
                 setMarks(init_field(false));
                 setInitNumber(copy(solution));
@@ -62,6 +66,7 @@ function Sudoku(props) {
             {
                 let {solution} = data;
                 //let {hasSingleSolution} = data;
+                setStatus('');
                 setHelp(init_field(-1));
                 setMarks(init_field(false));
                 setInitNumber(copy(solution));
@@ -190,6 +195,8 @@ function Sudoku(props) {
 
     let update = (row, column, value) => {
 
+
+        setStatus('');
         console.log(numbers);
         console.log(initNumbers);
         if (initNumbers[row][column] > 0)
@@ -272,12 +279,12 @@ function Sudoku(props) {
                         setNumbers(solution);
 
                         if (hasSingleSolution)
-                            alert("sudoku solution is unique");
+                            setStatus("sudoku solution is unique");
                         else
-                            alert("sudoku solution isn't unique");
+                            setStatus("sudoku solution isn't unique");
                     }
                     else {
-                        alert("There's no solution");
+                        setStatus("There's no solution");
                     }
                 });
         }
@@ -302,6 +309,7 @@ function Sudoku(props) {
 
                     console.log(data);
 
+                    setStatus('');
                     setHelp(data);
                     setNumbers(copy(numbers));
                 });
@@ -309,7 +317,7 @@ function Sudoku(props) {
 
         catch (error) {
             alert("Error: " + error)
-            console.error('Error:', error);
+            console.error('Error: ', error);
         }
     }
 
@@ -319,16 +327,19 @@ function Sudoku(props) {
 
     return (
         <>
-            <div className="float">{print(numbers)}
-                <div className="block">
-            <SudokuPanel target={target} update={update}></SudokuPanel>
-            <button onClick={sendSudoku}> Value</button>
-            <button onClick={getData}>Get Data</button>
-            <button onClick={getHelp}>Help</button>
-            <div>
-                <button onClick={getDbData}>Get Db Data</button>
-                <input type="text" onChange={handleInputChange}/>
+            <div className="float"><div className="block">
+                <StatusPanel status={status}></StatusPanel>
+                {print(numbers)}
             </div>
+                <div className="block">
+                    <SudokuPanel target={target} update={update}></SudokuPanel>
+                    <button onClick={sendSudoku}> Value</button>
+                    <button onClick={getData}>Get Data</button>
+                    <button onClick={getHelp}>Help</button>
+                    <div>
+                        <button onClick={getDbData}>Get Db Data</button>
+                        <input type="text" onChange={handleInputChange}/>
+                    </div>
                 </div>
             </div>
         </>
