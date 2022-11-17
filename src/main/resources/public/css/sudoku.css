@@ -1,6 +1,10 @@
 table {
     border-collapse: collapse;
     text-align: center;
+    position: relative;
+    float: right;
+    right: 50%;
+    margin: 100px;
 }
 
 td,
@@ -10,4 +14,15 @@ th {
     width: fit-content;
     padding: 5px 10px;
     height: fit-content;
+}
+
+tbody{
+    position: relative;
+    float: left;
+    left: 50%;
+}
+
+.center
+{
+    margin: 100px;
 }

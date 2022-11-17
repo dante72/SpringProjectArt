@@ -14,7 +14,7 @@ fetch('/sudoku').then(function(response) {
 function printTable(data)
 {
     let table = document.getElementById('sudoku');
-    var arr = data.array;
+    let arr = data.array;
 
     for (let i = 0; i < arr.length; i++)
     {

@@ -22,10 +22,10 @@ function Generator(props) {
     }
 
     return (
-        <>
+        <div className="float">
             <button onClick={generate}>Generate</button>
             <input type="text" onChange={handleInputChange}/>
-        </>
+        </div>
     );
 }
 export default Generator;

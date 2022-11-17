@@ -1,8 +1,7 @@
-import './Sudoku.css';
-
 import React, {useEffect, useRef, useState} from "react";
 import Cell from "./Cell";
 import SudokuPanel from "./SudokuPanel";
+import './Sudoku.css';
 
 function init_field(init_val)
 {
@@ -223,7 +222,7 @@ function Sudoku(props) {
                                         str.map((value, column) => {
                                             return (
                                                 <td key={row * 9 + column}
-                                                    className={(row % 3 === 0 ? "hor" : "") + (column % 3 === 0 ? " ver" : "")}>
+                                                    className={(row % 3 === 0 && row > 0 ? "hor" : "") + (column % 3 === 0 && column > 0? " ver" : "")}>
                                                     <Cell row={row}
                                                           column={column}
                                                           value={value}
@@ -306,13 +305,18 @@ function Sudoku(props) {
 
     return (
         <>
-            {print(numbers)}
+            <div className="float">{print(numbers)}
+                <div className="block">
+            <SudokuPanel target={target} update={update}></SudokuPanel>
             <button onClick={sendSudoku}> Value</button>
             <button onClick={getData}>Get Data</button>
             <button onClick={getHelp}>Help</button>
-            <button onClick={getDbData}>Get Db Data</button>
-            <input type="text" onChange={handleInputChange}/>
-            <SudokuPanel target={target} update={update}></SudokuPanel>
+            <div>
+                <button onClick={getDbData}>Get Db Data</button>
+                <input type="text" onChange={handleInputChange}/>
+            </div>
+                </div>
+            </div>
         </>
     );
 }

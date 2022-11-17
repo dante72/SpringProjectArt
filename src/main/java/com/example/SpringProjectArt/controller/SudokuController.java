@@ -10,15 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-
-
 @RestController
 public class SudokuController {
 
     private final UserService userService;
     private final SudokuService sudokuService;
-
 
     Logger logger = LoggerFactory.getLogger(SudokuController.class);
     @Autowired
@@ -70,5 +66,4 @@ public class SudokuController {
     {
         return sudokuService.help(data);
     }
-
 }
