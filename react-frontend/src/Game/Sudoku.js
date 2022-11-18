@@ -325,6 +325,14 @@ function Sudoku(props) {
         setId(e.target.value);
     }
 
+    let clearField = () => {
+        setStatus('');
+        setHelp(init_field(-1));
+        setMarks(init_field(false));
+        setInitNumber(init_field(0));
+        setNumbers(init_field(0));
+    }
+
     return (
         <>
             <div className="float"><div className="block">
@@ -336,6 +344,7 @@ function Sudoku(props) {
                     <button onClick={sendSudoku}>Calculate</button>
                     <button onClick={getData}>Generate</button>
                     <button onClick={getHelp}>Help</button>
+                    <button onClick={clearField}>Clear</button>
                     <div>
                         <button onClick={getDbData}>Get By Id</button>
                         <input type="text" onChange={handleInputChange}/>
