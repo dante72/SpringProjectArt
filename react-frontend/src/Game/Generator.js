@@ -23,7 +23,7 @@ function Generator(props) {
 
     return (
         <div className="float">
-            <button onClick={generate}>Generate</button>
+            <button onClick={generate}>Generate to DB</button>
             <input type="text" onChange={handleInputChange}/>
         </div>
     );

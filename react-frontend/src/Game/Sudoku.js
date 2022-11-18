@@ -333,11 +333,11 @@ function Sudoku(props) {
             </div>
                 <div className="block">
                     <SudokuPanel target={target} update={update}></SudokuPanel>
-                    <button onClick={sendSudoku}> Value</button>
-                    <button onClick={getData}>Get Data</button>
+                    <button onClick={sendSudoku}>Calculate</button>
+                    <button onClick={getData}>Generate</button>
                     <button onClick={getHelp}>Help</button>
                     <div>
-                        <button onClick={getDbData}>Get Db Data</button>
+                        <button onClick={getDbData}>Get By Id</button>
                         <input type="text" onChange={handleInputChange}/>
                     </div>
                 </div>
